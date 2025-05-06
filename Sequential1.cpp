@@ -6,7 +6,12 @@
 #include <unordered_set>
 #include <fstream>
 
-
+void logPerformance(const std::string& implType, const std::string& dataset, double execTime) {
+    std::ofstream outputFile("performance.csv", std::ios::app);
+    if (outputFile.is_open()) {
+        outputFile << implType << "," << dataset << "," << execTime << "\n";
+    }
+}
 struct Edge {
     int source;
     int target;
@@ -593,5 +598,7 @@ int main() {
     std::cout << "\nLoaded graph SSSP:" << std::endl;
     g2.printSSSP(source);
     
+    logPerformance("Sequential", "GraphDataset", duration.count());
+    system("python3 Analysis.py");
     return 0;
 }
